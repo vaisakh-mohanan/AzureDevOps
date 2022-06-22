@@ -38,7 +38,7 @@ Reference  : https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-depl
   echo "Service principal ID: $USER_NAME"
   echo "Service principal password: $PASSWORD" 
   
-  Note : Might be some issues whie creating Service principle above if you are not a account owner or lower permissions
+  Note :  if you are not a account owner or lower permissions Might be some issues whie creating Service principle as mentioned above,
   In that Case use Managed Identity
   refer : https://docs.microsoft.com/en-us/azure/aks/use-managed-identity
   
