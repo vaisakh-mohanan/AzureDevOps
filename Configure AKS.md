@@ -24,18 +24,18 @@ Reference  : https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-depl
 ## 2. Create a service priciple to allow AKS serviec to Access Container registry
   follow : https://docs.microsoft.com/en-us/azure/container-registry/container-registry-auth-service-principal
   
-  $ACR_NAME='awpindacr' `
-  $SERVICE_PRINCIPAL_NAME='awpacrsp' `
-  $ACR_REGISTRY_ID=$(az acr show --name $ACR_NAME --query "id" --output tsv) `
-  #Create the service principal with rights scoped to the registry. `
-  #Default permissions are for docker pull access. Modify the '--role' `
-  #argument value as desired: `
-  #acrpull:     pull only `
-  #acrpush:     push and pull `
-  #owner:       push, pull, and assign roles `
-  $PASSWORD=$(az ad sp create-for-rbac --name $SERVICE_PRINCIPAL_NAME --scopes $ACR_REGISTRY_ID --role acrpull --query "password" --output tsv) `
-  $USER_NAME=$(az ad sp list --display-name $SERVICE_PRINCIPAL_NAME --query "[].appId" --output tsv) `
-  echo "Service principal ID: $USER_NAME" `
+  $ACR_NAME='awpindacr'
+  $SERVICE_PRINCIPAL_NAME='awpacrsp'
+  $ACR_REGISTRY_ID = $(az acr show --name $ACR_NAME --query "id" --output tsv)
+  #Create the service principal with rights scoped to the registry.
+  #Default permissions are for docker pull access. Modify the '--role'
+  #argument value as desired:
+  #acrpull:     pull only
+  #acrpush:     push and pull
+  #owner:       push, pull, and assign roles
+  $PASSWORD=$(az ad sp create-for-rbac --name $SERVICE_PRINCIPAL_NAME --scopes $ACR_REGISTRY_ID --role acrpull --query "password" --output tsv)
+  $USER_NAME=$(az ad sp list --display-name $SERVICE_PRINCIPAL_NAME --query "[].appId" --output tsv)
+  echo "Service principal ID: $USER_NAME"
   echo "Service principal password: $PASSWORD" 
   
   Note : Might be some issues whie creating Service principle above if you are not a account owner or lower permissions
