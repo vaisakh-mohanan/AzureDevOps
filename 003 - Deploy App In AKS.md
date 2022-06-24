@@ -66,6 +66,50 @@ Refer: https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-deploy-app
          
                Ex : az aks update -n awpAKSCluster -g aztech-rg--attach-acr awpindacr
                
+## 5. Sometimes in azure you are not a owner .Hence you cannot create or manipulate Role permissions in Registry in Such Cases follow below steps.
+
+   Refer : https://medium.com/@pjbgf/azure-kubernetes-service-aks-pulling-private-container-images-from-azure-container-registry-acr-9c3e0a0a13f2
+   
+   ### Step 1.  Open the Azure Portal in your browser and look for all your Container Repositories. Select the one you have just created,
+   then go to its Settings and Access Keys. Enable Amin user and copy the username and password.
+   
+   ![image](https://user-images.githubusercontent.com/74909873/175514114-85cc9b73-c6f9-4259-be62-ebe4c0186ea9.png)
+   
+   ### Step 2. Create a Secret in Kuber netes using above container credentials
+      kubectl create secret docker-registry SECRET_NAME --docker-server=REGISTRY_NAME.azurecr.io --docker-username=USERNAME --docker-password=PASSWORD --docker-email=ANY_VALID_EMAIL
+      
+      Ex:
+      
+      kubectl create secret docker-registry awppullsecret --docker-server=awpindacr.azurecr.io --docker-username=awpindacr --docker-password=HVZu1qbuBNpBw4vnqDyMYb2=rOKVqL0N --docker-email=vaisakh.mohanan@allianz.com
+      
+   ### Step 3. Update Kubenetes manifest so that AKS can pull image from registry using the secret
+      
+      ---
+      apiVersion: apps/v1beta1
+      kind: Deployment
+      metadata:
+        name: azure-vote-front
+      spec:
+        replicas: 1
+        template:
+          metadata:
+            labels:
+              app: azure-vote-front
+          spec:
+            containers:
+            - name: azure-vote-front
+              image: REGISTRY_NAME.azurecr.io/microsoft/azure-vote-front:redis-v1
+              ports:
+              - containerPort: 80
+              env:
+              - name: REDIS
+                value: "azure-vote-back"
+              imagePullSecrets:
+              - name: **SECRET_NAME**
+              
+  Implementation Refer : https://github.com/vaisakh-mohanan/Angular-ACR-Demo/blob/master/kubebuild.yaml
+
+               
                
                
              
