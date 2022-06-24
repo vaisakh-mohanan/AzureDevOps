@@ -105,7 +105,7 @@ Refer: https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-deploy-app
               - name: REDIS
                 value: "azure-vote-back"
               imagePullSecrets:
-              - name: - ![#f03c15](https://via.placeholder.com/15/f03c15/f03c15.png) `SECRET_NAME`
+              - name: SECRET_NAME
               
   Implementation Refer : https://github.com/vaisakh-mohanan/Angular-ACR-Demo/blob/master/kubebuild.yaml
 
