@@ -107,7 +107,7 @@ Refer: https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-deploy-app
               imagePullSecrets:
               - name: SECRET_NAME
               
-  Implementation Refer : https://github.com/vaisakh-mohanan/Angular-ACR-Demo/blob/master/kubebuild.yaml
+  Implementation Refer : [https://github.com/vaisakh-mohanan/Angular-ACR-Demo/blob/master/kubebuild.yaml](https://github.com/vaisakh-mohanan/Angular-ACR-Demo/blob/master/kubebuild.yaml#:~:text=imagePullSecrets%3A,name%3A%20awppullsecret)
 
                
                
