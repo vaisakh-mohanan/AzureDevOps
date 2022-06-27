@@ -64,17 +64,55 @@ For common steps like creating Azure resources follow the link : https://github.
       --assign-identity $MSI_ID `
       --file build.yaml `
       --git-access-token $GIT_PAT
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+      
+      
+      
+# Deploy App to AKS Cloud
+
+## 1. Update AKS manifest as follow
+
+	apiVersion: apps/v1
+	kind: Deployment
+	metadata:
+	  name: aspnet-api
+	spec:
+	  replicas: 1
+	  selector:
+	    matchLabels:
+	      app: aspnet-api
+	  template:
+	    metadata:
+	      labels:
+		app: aspnet-api
+	    spec:
+	      nodeSelector:
+		"beta.kubernetes.io/os": linux
+	      containers:
+	      - name: aspnet-api
+		image: awpindacr.azurecr.io/aspnet-app:latest
+		env:
+		- name: ALLOW_EMPTY_PASSWORD
+		  value: "yes"
+		ports:
+		- containerPort: 80
+		  name: redis
+	      imagePullSecrets:
+		- name: awppullsecret
+	---
+	apiVersion: v1
+	kind: Service
+	metadata:
+	  name: aspnet-api
+	spec:
+	  type: LoadBalancer
+	  ports:
+	  - port: 80
+	  selector:
+	    app: aspnet-api
+	  
+ ## 2. Follow steps as mentioned in 
+ 	https://github.com/vaisakh-mohanan/AzureDevOps/blob/master/003%20-%20Deploy%20App%20In%20AKS.md
+
  
  
  
